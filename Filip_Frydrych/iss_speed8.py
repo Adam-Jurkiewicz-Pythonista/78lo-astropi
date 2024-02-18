@@ -8,7 +8,6 @@ if __name__ == "__main__":
     from math import radians, sin, cos, acos, sqrt
     from sense_hat import SenseHat
     from pathlib import Path
-    import time
     import numpy
 
 #variables and constants definitions
@@ -43,7 +42,7 @@ if __name__ == "__main__":
     now_time = datetime.now()                          #current time
     start_time = now_time                              #saving start time to check if program runs longer than 8 minutes
     loop_time = now_time                               #temporary time inside the loop, to check if 10 seconds have passed
-    i=0;                                               #counter for variable tables
+    i=0                                               #counter for variable tables
     point = iss1.coordinates()                         #point containing current ISS coordinates
     time_difference = start_time-start_time            #timedifference zero - definition of differential time variable
     time_f.append(time_difference.seconds)             #initial time difference = 0
@@ -57,7 +56,8 @@ if __name__ == "__main__":
     gyro_x.append(tgyro_x)                             #initial gyro readings wrote to tables
     gyro_y.append(tgyro_y)
     gyro_z.append(tgyro_z)
-    print('t=' + str(time_f[i]) +'sec,  lattitude=' + str(lat[i]) +' rad, longitude=' + str(lon[i]) + ' rad, elevation=' + str(alt[i]) +" km")
+    # to niepotrzebne w realnym programie
+    # print('t=' + str(time_f[i]) +'sec,  lattitude=' + str(lat[i]) +' rad, longitude=' + str(lon[i]) + ' rad, elevation=' + str(alt[i]) +" km")
 
 
 #main calculating loop
@@ -103,8 +103,8 @@ if __name__ == "__main__":
             kkk =G*M/(total_R*1000)
             iss_speed2=sqrt(kkk)/1000
             v2.append(iss_speed2)
-            
-            print('t=' + str(time_f[i]) +'sec, lattitude=' + str(lat[i]) +' rad, longitude=' + str(lon[i]) + ' rad, elevation=' + str(alt[i]) + " km, v1= " + str(v1[i-1]) +" km/s, v2= " + str(v2[i-1]) + " km/s")
+            # ponieżej nie w realnym programie
+            # print('t=' + str(time_f[i]) +'sec, lattitude=' + str(lat[i]) +' rad, longitude=' + str(lon[i]) + ' rad, elevation=' + str(alt[i]) + " km, v1= " + str(v1[i-1]) +" km/s, v2= " + str(v2[i-1]) + " km/s")
            
            
             #SAVING OF GYROSCOPE DATA
@@ -116,7 +116,7 @@ if __name__ == "__main__":
             gyro_x.append(tgyro_x)      #appending gyro x value to the gyro x table
             gyro_y.append(tgyro_y)      #appending gyro y value to the gyro y table
             gyro_z.append(tgyro_z)      #appending gyro z value to the gyro z table
-            print("x= "+str(tgyro_x)+" deg/s  y= "+str(tgyro_y)+" deg/s   z= "+str(tgyro_z)+" deg/s")  #printing actually degrees per sec. speed
+            # print("x= "+str(tgyro_x)+" deg/s  y= "+str(tgyro_y)+" deg/s   z= "+str(tgyro_z)+" deg/s")  #printing actually degrees per sec. speed
             
             #GETTING ACCELERATOR DATA
             
@@ -132,13 +132,13 @@ if __name__ == "__main__":
            
            
     s1 = numpy.std(v1, ddof=1) # standard deviation of calculated v1
-    print(s1)
+    # print(s1)
     v1m = numpy.median(v1) # mediana of calculated v1
-    print(v1m)
+    # print(v1m)
     s2 = numpy.std(v2, ddof=1) # standard deviation of calculated v2
-    print(s2)
+    # print(s2)
     v2m = numpy.median(v2) # mediana of calculated v2
-    print(v2m)
+    # print(v2m)
 
    
     if(s1<s2):             # better result is saved to the file
@@ -155,9 +155,9 @@ if __name__ == "__main__":
     
     with open(result2_file, 'w') as file2:
         file2.write(output_string)
-    print("Writing:" + output_string)
-    print("Result written to ", result2_file)    
-    file2.close()
+    # print("Writing:" + output_string)
+    # print("Result written to ", result2_file)
+    # file2.close()
     
     gxm = numpy.median(gyro_x) # mediana of rotation speed axis x
     gym = numpy.median(gyro_y) # mediana of rotation speed axis y
@@ -165,31 +165,31 @@ if __name__ == "__main__":
     
     gmax=max(gxm,gym,gzm)   #checking which axis describes iss movement- the highest value is the right one
     
-    print("gx=" + str(gxm) + "gy=" + str(gym) + "gz=" + str(gzm)) #printing the average x, y and z rotating speed values
+    # print("gx=" + str(gxm) + "gy=" + str(gym) + "gz=" + str(gzm)) #printing the average x, y and z rotating speed values
     
     ISS_T = (360/gmax)/60
-    print("ISS time for full orbit:" +str(ISS_T) + " min") #printing full orbit (360) time
+    # print("ISS time for full orbit:" +str(ISS_T) + " min") #printing full orbit (360) time
 
     estimate_kmps=2*3.14159*(6371.0 + numpy.median(alt))/(ISS_T*60) #calculating iss speed
     estimate_kmps_formatted2 = "{:.4f}".format(estimate_kmps) #formatting calculated speed
     # Create a string to write to the file
     output_string = estimate_kmps_formatted2
-    print("ISS speed calculated from gyroscope:" + output_string + "km/s" ) #printing iss speed from gyro
+    # print("ISS speed calculated from gyroscope:" + output_string + "km/s" ) #printing iss speed from gyro
     # Write to the file
     
     with open(result_file, 'w') as file1:   
         file1.write(output_string)
-    print("Writing:" + output_string)
-    print("Result written to ", result_file)    
-    file1.close()
+    # print("Writing:" + output_string)
+    # print("Result written to ", result_file)
+    # file1.close()
     
     #getting extra data and saving it for future
     L=[] 
     for j in range (0,i):
-        L.append("time_f=" + str(time_f[j]) + ", lat=" + str(lat[j]) + ", lon=" + str(lon[j]) + ", alt=" + str(alt[j]) + ", v1=" + str(v1[j]) + ", v2=" + str(v2[j]) + ", gx=" + str(gyro_x[j]) + ", gy=" + str(gyro_y[j]) + ", gz=" + str(gyro_z[j]) + ", accelx=" + str(accelerator_x[j}) + ", acely=" + str(accelerator_x[j]) +", accelz=" + str(accelerator_z[j] + "\n")
+        L.append("time_f=" + str(time_f[j]) + ", lat=" + str(lat[j]) + ", lon=" + str(lon[j]) + ", alt=" + str(alt[j]) + ", v1=" + str(v1[j]) + ", v2=" + str(v2[j]) + ", gx=" + str(gyro_x[j]) + ", gy=" + str(gyro_y[j]) + ", gz=" + str(gyro_z[j]) + ", accelx=" + str(accelerator_x[j]) + ", acely=" + str(accelerator_x[j]) +", accelz=" + str(accelerator_z[j]) + "\n")
     
     with open(data_file, 'w') as file3:
         file3.writelines(L)
-    print("Data written to ", data_file)    
-    file3.close()
-    
+    # print("Data written to ", data_file)
+    # file3.close()
+
